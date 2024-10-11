@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Búsqueda en Tiempo Real en Tabla</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f0f4f8; /* Fondo suave */
+            color: #333; /* Color de texto */
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #007bff; /* Color del título */
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            max-width: 400px; /* Ancho máximo */
+            border: 2px solid #007bff; /* Borde azul */
+            border-radius: 5px; /* Bordes redondeados */
+            margin-bottom: 20px; /* Espacio inferior */
+            transition: border-color 0.3s; /* Transición suave */
+        }
+
+        input[type="text"]:focus {
+            border-color: #0056b3; /* Color del borde al enfocarse */
+            outline: none; /* Sin contorno */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Espacio superior */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra de la tabla */
+            background-color: #fff; /* Fondo blanco para la tabla */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff; /* Fondo azul para encabezados */
+            color: white; /* Texto blanco en encabezados */
+        }
+
+        tr:hover {
+            background-color: #e9ecef; /* Color de fondo al pasar el mouse */
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        /* Estilo para el contenedor de la tabla */
+        .table-container {
+            overflow-x: auto; /* Desplazamiento horizontal */
+            border-radius: 5px; /* Bordes redondeados para el contenedor */
+            margin-top: 20px; /* Espacio superior */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Filtro de Búsqueda en Tabla</h1>
+
+    <!-- Campo de entrada para la búsqueda -->
+    <input type="text" id="buscar" placeholder="Buscar en la tabla..." oninput="filtrarTabla()">
+
+    <!-- Contenedor para la tabla -->
+    <div class="table-container">
+        <!-- Tabla con los datos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="tablaDatos">
+                <tr>
+                    <td>Juan</td>
+                    <td>Pérez</td>
+                    <td>123-456-7890</td>
+                </tr>
+                <tr>
+                    <td>María</td>
+                    <td>López</td>
+                    <td>234-567-8901</td>
+                </tr>
+                <tr>
+                    <td>Carlos</td>
+                    <td>Gómez</td>
+                    <td>345-678-9012</td>
+                </tr>
+                <tr>
+                    <td>Ana</td>
+                    <td>Rodríguez</td>
+                    <td>456-789-0123</td>
+                </tr>
+                <tr>
+                    <td>Pedro</td>
+                    <td>Ramírez</td>
+                    <td>567-890-1234</td>
+                </tr>
+                <tr>
+                    <td>Lucía</td>
+                    <td>Martínez</td>
+                    <td>678-901-2345</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Función para filtrar la tabla en tiempo real
+        function filtrarTabla() {
+            const filtro = document.getElementById('buscar').value.toLowerCase();
+            const tabla = document.getElementById('tablaDatos');
+            const filas = tabla.getElementsByTagName('tr');
+
+            // Recorrer todas las filas y filtrar según el texto ingresado
+            for (let i = 0; i < filas.length; i++) {
+                const celdas = filas[i].getElementsByTagName('td');
+                let encontrado = false;
+
+                // Buscar coincidencia en cada celda (nombre, apellido o teléfono)
+                for (let j = 0; j < celdas.length; j++) {
+                    if (celdas[j]) {
+                        const texto = celdas[j].textContent.toLowerCase();
+                        if (texto.includes(filtro)) {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Mostrar u ocultar la fila dependiendo de si se encontró coincidencia
+                if (encontrado) {
+                    filas[i].style.display = "";
+                } else {
+                    filas[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
